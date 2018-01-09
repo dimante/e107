@@ -349,9 +349,7 @@ class secure_image
 			
 		}
 
-		$fontFile = isset($secureimg['font']) ? realpath($fontpath.$secureimg['font']) : false;
-
-		if(!empty($fontFile) && !is_readable($fontFile))
+		if(isset($secureimg['font']) && !is_readable($fontpath.$secureimg['font']))
 		{
 			echo "Font missing"; // for debug only. translation not necessary.
 			exit;
@@ -401,11 +399,10 @@ class secure_image
 		}
 		
 		header("Content-type: image/{$type}");
-		
 
-		if(!empty($fontFile))
+		if(isset($secureimg['font']) && is_readable($fontpath.$secureimg['font']))
 		{
-			imagettftext($image, $secureimg['size'],$secureimg['angle'], $secureimg['x'], $secureimg['y'], $text_color, $fontFile, $code);
+			imagettftext($image, $secureimg['size'],$secureimg['angle'], $secureimg['x'], $secureimg['y'], $text_color,realpath($fontpath.$secureimg['font']), $code);
 		}
 		else
 		{
